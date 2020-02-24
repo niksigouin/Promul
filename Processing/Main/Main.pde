@@ -1,10 +1,11 @@
+import java.util.Arrays;
 import netP5.*;
 import oscP5.*;
 
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-Object[] userList;
+String[] userList;
 
 void setup() {
   size(800, 600);
@@ -15,6 +16,7 @@ void setup() {
 
 void draw() {
   background(0);
+  
 }
 
 void oscEvent(OscMessage m) {
@@ -25,9 +27,35 @@ void oscEvent(OscMessage m) {
   // int y = theOscMessage.get(1).intValue();
 
   if (m.checkAddrPattern("/client")) {
-    userList = m.arguments();
+    //userList = m.arguments();
+    //String[] users = new String[userList.length];
+    //System.arraycopy(userList,0,users,0,userList.length);
+    //println(users.toString());
     
-    println(userList);
+    
+    // CONVERTS THE OBJECT ARRAY INTO STRING ARRAY
+    userList = Arrays.asList(m.arguments()).toArray(new String[m.arguments().length]);
+    
+    println(userList.length);
+
+    
+    for (int i = 0; i < userList.length; i++) {
+      int size = width/i;
+      fill(255);
+      rect(size*i, height/2, size, size);
+    }
+    //Arrays.asList(userList).toArray(new String[userList.length]);
+    
+    //for (S i : ) {
+    //  int size = width/i;
+    //  fill(255);
+    //  rect(size*i, height/2, size, size);
+    //  println(i);
+    //}
+
+
+    //println(m.arguments().length);
+    //proin
   }
 
   //int firstValue = m.get(0).intValue();
