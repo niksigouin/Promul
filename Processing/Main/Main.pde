@@ -26,43 +26,51 @@ void oscEvent(OscMessage m) {
   // int x = theOscMessage.get(0).intValue();
   // int y = theOscMessage.get(1).intValue();
 
-  if (m.checkAddrPattern("/client")) {
-    //userList = m.arguments();
-    //String[] users = new String[userList.length];
-    //System.arraycopy(userList,0,users,0,userList.length);
-    //println(users.toString());
+  // if (m.checkAddrPattern("/client")) {
+  //   //userList = m.arguments();
+  //   //String[] users = new String[userList.length];
+  //   //System.arraycopy(userList,0,users,0,userList.length);
+  //   //println(users.toString());
     
     
-    // CONVERTS THE OBJECT ARRAY INTO STRING ARRAY
-    userList = Arrays.asList(m.arguments()).toArray(new String[m.arguments().length]);
+  //   // CONVERTS THE OBJECT ARRAY INTO STRING ARRAY
+  //   userList = Arrays.asList(m.arguments()).toArray(new String[m.arguments().length]);
     
-    println(userList.length);
+  //   println(userList.length);
 
     
-    for (int i = 0; i < userList.length; i++) {
-      int size = width/i;
-      fill(255);
-      rect(size*i, height/2, size, size);
-    }
-    //Arrays.asList(userList).toArray(new String[userList.length]);
+  //   for (int i = 0; i < userList.length; i++) {
+  //     int size = width/i;
+  //     fill(255);
+  //     rect(size*i, height/2, size, size);
+  //   }
+  //   //Arrays.asList(userList).toArray(new String[userList.length]);
     
-    //for (S i : ) {
-    //  int size = width/i;
-    //  fill(255);
-    //  rect(size*i, height/2, size, size);
-    //  println(i);
-    //}
+  //   //for (S i : ) {
+  //   //  int size = width/i;
+  //   //  fill(255);
+  //   //  rect(size*i, height/2, size, size);
+  //   //  println(i);
+  //   //}
 
 
-    //println(m.arguments().length);
-    //proin
+  //   //println(m.arguments().length);
+  //   //proin
+  // }
+
+  String address = m.addrPattern();
+
+  if (address.equals("/clients")) {
+    String value = m.get(0).stringValue();
+    print("IPS: " + value);
+  } else if(address.equals("/button")) {
+    int value = m.get(0).intValue();
+    println(m.typetag());
+    println(value);
   }
 
-  int firstValue = m.get(0).intValue();
+  String firstValue = m.get(0).toString();
   println(firstValue);
-
-  //String firstValue = m.get(0).toString();
-  //println(firstValue);
 
 
 
