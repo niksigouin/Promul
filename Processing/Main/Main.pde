@@ -58,8 +58,8 @@ void oscEvent(OscMessage m) {
     //proin
   }
 
-  //int firstValue = m.get(0).intValue();
-  //println(firstValue);
+  int firstValue = m.get(0).intValue();
+  println(firstValue);
 
   //String firstValue = m.get(0).toString();
   //println(firstValue);
