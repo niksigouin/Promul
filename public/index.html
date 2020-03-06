@@ -12,23 +12,26 @@
 </head>
 
 <body>
-  <form action="/" method="post" id="sliderContainer">
+  <!-- <form action="/" method="post" id="sliderContainer">
     <div>
       <p>Rouge: <span id="red"></span></p>
-      <input id="red" class='slider' type="range" min="0" max="100" value="50" step="1" style='background: red'>
+      <input type="range" id="red" class='slider' min="0" max="100" value="50" step="1" style='background: red'>
     </div>
     <div>
       <p>Vert: <span id="green"></span></p>
-      <input id="green" class='slider' type="range" min="0" max="100" value="50" step="1" style='background: green'>
+      <input type="range" id="green" class='slider' min="0" max="100" value="50" step="1" style='background: green'>
     </div>
     <div>
       <p>Bleu: <span id="blue"></span></p>
-      <input id="blue" class='slider' type="range" min="0" max="100" value="50" step="1" style='background: blue'>
+      <input type="range" id="blue" class='slider' min="0" max="100" value="50" step="1" style='background: blue'>
     </div>
-  </form>
-  <div>
-    <button type="button">Hello</button>
-  </div>
+  </form> -->
+
+  <!-- <div> -->
+    <input type="range" id="blue" class='slider' min="0" max="100" value="50" step="1" style='background: blue'>
+    <!-- <input type="button" id="red" class='button' value="1" onClick="msg()"> -->
+    <button type="button" id="btn1" class='button' value="1">This is a button</button>
+  <!-- </div> -->
   <!-- <div>
     <div style="margin-bottom:10px">XY</div>
     <fieldset class="pad" data-width="800" data-height="800">
@@ -39,7 +42,7 @@
   </div> -->
 
 
-  <script>
+  <!-- <script>
     $(function () {
       var $all = $(".dial, .bars1, .bars2, .pad")
         , $body = $("body");
@@ -58,7 +61,7 @@
         .css({ 'border': '5px solid #BBB' });
     });
 
-  </script>
+  </script> -->
   <script src="/send-osc.js"></script>
 </body>
 
