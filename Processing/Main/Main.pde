@@ -5,55 +5,53 @@ import oscP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-ArrayList userList = new ArrayList();
-String user;
+ArrayList clientList = new ArrayList();
+
+String client;
 
 void setup() {
-  size(800, 600);
+  size(1280, 720);
   oscP5 = new OscP5(this, 3334);
-
   myRemoteLocation = new NetAddress("127.0.0.1", 3334);
 }
 
 void draw() {
-  background(0);
+  background(106);
+
+  randomSeed(200);
 }
 
 void oscEvent(OscMessage m) {
-    String address = m.addrPattern();
+  String address = m.addrPattern();
   // Gets the first value of the osc message (Use of idex is for an array of values
   // EX: 
   // OSC MESSAGE OBJECT -> {IP ADDRESS}/XYPAD [12, 19]
   // int x = theOscMessage.get(0).intValue();
   // int y = theOscMessage.get(1).intValue();
 
-  // if (m.checkAddrPattern("/client")) {
-  //   //userList = m.arguments();
-  //   //String[] users = new String[userList.length];
-  //   //System.arraycopy(userList,0,users,0,userList.length);
-  //   //println(users.toString());
-  if (address.equals("/userJoin")) {
-    user = m.get(0).stringValue();
-    println("Joined: " + user);
-    userList.add(user);
-    
-    // #### Appends new user to userList ### //
-    onUpdate();
-    
-  } else if (address.equals("/userLeft")) {
-    
-    user = m.get(0).stringValue();
-    println("Disconnected: " + user);
-    int index = userList.indexOf(user);
-    userList.remove(index);
-    
-    String user = m.get(0).stringValue();
-    println("Left: " + user);
-    onUpdate();
-    
+  // #### Appends new client to clientList ### //
+  if (address.equals("/clientJoin")) {
+    client = m.get(0).stringValue();
+    println("Joined: " + client);
+    clientList.add(client);
+    printArray(clientList);
   } 
-  
-  
+  // #### Removes the diconnected client from clientList ### //
+  else if (address.equals("/clientLeft")) {
+
+    client = m.get(0).stringValue();
+    println("Disconnected: " + client);
+    int index = clientList.indexOf(client);
+    clientList.remove(index);
+
+    String client = m.get(0).stringValue();
+    println("Left: " + client);
+    printArray(clientList);
+  } 
+
+  //println(m);
+
+
   //else if (address.equals("/button")) {
   //  int value = m.get(0).intValue();
   //  println(m.typetag());
@@ -61,7 +59,7 @@ void oscEvent(OscMessage m) {
   //}
 }
 
-void onUpdate() {
-  println(userList.size());
-  printArray(userList);
-}
+//void onUpdate() {
+//  //println(clientList.size());
+//  //printArray(clientList);
+//}

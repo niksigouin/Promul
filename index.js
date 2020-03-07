@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
 
     //Send the list of connected IPS to the OSC
     client.send('/client', userList);
-    client.send('/userJoin', user)
+    client.send('/clientJoin', user)
 
     // Gets the input from the webpage and sends it through OSC
     socket.on('change:interval',function (type, val, name) {
@@ -51,7 +51,7 @@ io.on('connection', function (socket) {
 
         //Send the list of connected IPS to the OSC
         client.send('/client', userList);
-        client.send('/userLeft', user)
+        client.send('/clientLeft', user)
         console.log("IPs: ", userList);
     });
 });
