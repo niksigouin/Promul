@@ -5,7 +5,8 @@ import oscP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-String[] userList;
+String[] userList = {};
+String user;
 
 void setup() {
   size(800, 600);
@@ -16,10 +17,10 @@ void setup() {
 
 void draw() {
   background(0);
-  
 }
 
 void oscEvent(OscMessage m) {
+    String address = m.addrPattern();
   // Gets the first value of the osc message (Use of idex is for an array of values
   // EX: 
   // OSC MESSAGE OBJECT -> {IP ADDRESS}/XYPAD [12, 19]
@@ -31,52 +32,30 @@ void oscEvent(OscMessage m) {
   //   //String[] users = new String[userList.length];
   //   //System.arraycopy(userList,0,users,0,userList.length);
   //   //println(users.toString());
+  if (address.equals("/userJoin")) {
+    user = m.get(0).stringValue();
+    println("Joined: " + user);
     
+    // #### Appends new user to userList ### //
+    onConnection();
     
-  //   // CONVERTS THE OBJECT ARRAY INTO STRING ARRAY
-  //   userList = Arrays.asList(m.arguments()).toArray(new String[m.arguments().length]);
+  } else if (address.equals("/userLeft")) {
+    String user = m.get(0).stringValue();
+    println("Left: " + user);
     
-  //   println(userList.length);
-
-    
-  //   for (int i = 0; i < userList.length; i++) {
-  //     int size = width/i;
-  //     fill(255);
-  //     rect(size*i, height/2, size, size);
-  //   }
-  //   //Arrays.asList(userList).toArray(new String[userList.length]);
-    
-  //   //for (S i : ) {
-  //   //  int size = width/i;
-  //   //  fill(255);
-  //   //  rect(size*i, height/2, size, size);
-  //   //  println(i);
-  //   //}
-
-
-  //   //println(m.arguments().length);
-  //   //proin
-  // }
-
-  String address = m.addrPattern();
-
-  if (address.equals("/clients")) {
-    String value = m.get(0).stringValue();
-    print("IPS: " + value);
-  } else if(address.equals("/button")) {
-    int value = m.get(0).intValue();
-    println(m.typetag());
-    println(value);
-  }
-
-  String firstValue = m.get(0).toString();
-  println(firstValue);
-
-
-
-  //println(m.typetag());
-  //println(m.get(0));
+  } 
+  
+  
+  //else if (address.equals("/button")) {
+  //  int value = m.get(0).intValue();
+  //  println(m.typetag());
+  //  println(value);
+  //}
 }
 
-// Parse clients into an array
-// client[CLIENT INDEX]
+void onConnection() {
+  userList = append(userList, user);
+  
+  println(userList.length);
+  printArray(userList);
+}
