@@ -5,7 +5,7 @@ import oscP5.*;
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-String[] userList = {};
+ArrayList userList = new ArrayList();
 String user;
 
 void setup() {
@@ -35,13 +35,21 @@ void oscEvent(OscMessage m) {
   if (address.equals("/userJoin")) {
     user = m.get(0).stringValue();
     println("Joined: " + user);
+    userList.add(user);
     
     // #### Appends new user to userList ### //
-    onConnection();
+    onUpdate();
     
   } else if (address.equals("/userLeft")) {
+    
+    user = m.get(0).stringValue();
+    println("Disconnected: " + user);
+    int index = userList.indexOf(user);
+    userList.remove(index);
+    
     String user = m.get(0).stringValue();
     println("Left: " + user);
+    onUpdate();
     
   } 
   
@@ -53,9 +61,7 @@ void oscEvent(OscMessage m) {
   //}
 }
 
-void onConnection() {
-  userList = append(userList, user);
-  
-  println(userList.length);
+void onUpdate() {
+  println(userList.size());
   printArray(userList);
 }
