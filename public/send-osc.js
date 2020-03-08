@@ -1,24 +1,26 @@
 var socket = io();
 
-$(function() {
-    $(":input").on("input", function () {
-      var type = $(this).attr('class');
-      var idname = $(this).attr('id');
-      var val = $(this).val();
-      sendosc(type, val, idname);
-      console.log('Message from ' + idname, "With value: " + val); 
-    });
+$(function () {
+  // $(":input").draggable();
+  var timeOut;
 
-    $(":button").click(function(){
-          var type = $(this).attr('class');
-          var idname = $(this).attr('id');
-          var val = $(this).val();
-          // console.log("A button is pressed");
-          sendosc(type, val, idname);
-          console.log('Message from ' + idname, "With value: " + val); 
-    });
+  $(":button").on("mousedown vmousedown",function () {
+    var type = $(this).attr('class');
+    var  val = $(this).attr('id');
+    timeout = setInterval(function () {
+      sendosc(type, val);
+    }, 10);
+
+    console.log('Message from ' + val, "With value: " + val);
+    return false;
+  });
+
+  $(document).on("mouseup vmouseup",function () {
+    clearInterval(timeout);
+    return false;
+  });
 });
 
-function sendosc(type, val, idname) {
-  socket.emit("change:interval", type, val, idname);
+function sendosc(type, val) {
+  socket.emit("change:interval", type, val);
 }
