@@ -30,11 +30,13 @@ io.on('connection', function (socket) {
     client.send('/clientJoin', user)
 
     // Gets the input from the webpage and sends it through OSC
-    socket.on('change:interval',function (type, val, name) {
+    socket.on('change:interval',function (type, val) {
         // Converts the input into an int
-        var value = Number(val);
+        // var value = Number(val);
+
         // Prepares the Message to ship to OSC
-        var msg = new Message('/' + user + '/' + type + '/' + name, value);
+        // var msg = new Message('/' + user + '/' + type + '/' + name, value);
+        var msg = new Message('/' + type, user, val);
         client.send(msg);
         // console.log(msg);
     });

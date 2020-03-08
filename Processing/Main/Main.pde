@@ -21,7 +21,7 @@ void setup() {
   smooth();
   oscP5 = new OscP5(this, 3334);
   myRemoteLocation = new NetAddress("127.0.0.1", 3334);
-  
+
 
   //player = new Player(width/2, height/2, 20, 40, "NIKO");
 }
@@ -33,13 +33,13 @@ void draw() {
 
   fill(#FF0000);
   //circle(width/2, height/2, 20);
-  //player.display();
 
   // Draws the UI
   UI();
 
   for (int i=0; i < players.size(); i++) {
     players.get(i).display();
+    //players.get(i).move();
   }
 }
 
@@ -53,43 +53,56 @@ void oscEvent(OscMessage m) {
 
   // #### Appends new client to clientList ### //
   if (address.equals("/clientJoin")) {
-    
+
     // LOGISTIQUE
     client = m.get(0).stringValue();
     println("Joined: " + client);
     clientList.add(client);
-    
+
     // ADDS NEW PLAYER TO THE SCENE
-    players.add(new Player(60+tempX, height/2, 40, 80, client));
+    players.add(new Player(width/2, height/2, 40, 80, client));
     tempX += 60;
-    
+
     //printArray(players);
     printArray(clientList);
   } 
   // #### Removes the diconnected client from clientList ### //
   else if (address.equals("/clientLeft")) {
 
-     // LOGISTIQUE
+    // LOGISTIQUE
     client = m.get(0).stringValue(); // Grabs the client IP
     int index = clientList.indexOf(client); // Gets the index of the disconnected client
     clientList.remove(index); // Removes the client from the connected client list
     players.remove(index); // Removes the player with the index of the disconnected client
-    
-    
-    
+
+
+
     // DEBUG PRINTSSSSSSSS
     println("Left: " + client);
     printArray(clientList);
-    printArray(players);
+    //printArray(players);
   } 
 
+  if (address.equals("/button")) {
 
+    // LOGISTIQUE
+    client = m.get(0).stringValue(); // Grabs the client IP
+    String dir = m.get(1).stringValue();
 
-  //else if (address.equals("/button")) {
-  //  int value = m.get(0).intValue();
-  //  println(m.typetag());
-  //  println(value);
-  //}
+    int index = clientList.indexOf(client); // Gets the index of the client transmitting
+
+    players.get(index).move(dir); // Move player
+  } 
+
+  String addr = m.addrPattern();
+  String ad = m.get(0).stringValue();
+  String toggle = m.get(1).stringValue();
+
+  println(addr);
+  println(ad);
+  println(toggle);
+
+  //println(m);
 }
 
 

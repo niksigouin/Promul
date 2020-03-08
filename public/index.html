@@ -5,33 +5,22 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/styles.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/jquery.kontrol.js"></script>
   <title>Commute</title>
 </head>
 
 <body>
-  <!-- <form action="/" method="post" id="sliderContainer">
-    <div>
-      <p>Rouge: <span id="red"></span></p>
-      <input type="range" id="red" class='slider' min="0" max="100" value="50" step="1" style='background: red'>
-    </div>
-    <div>
-      <p>Vert: <span id="green"></span></p>
-      <input type="range" id="green" class='slider' min="0" max="100" value="50" step="1" style='background: green'>
-    </div>
-    <div>
-      <p>Bleu: <span id="blue"></span></p>
-      <input type="range" id="blue" class='slider' min="0" max="100" value="50" step="1" style='background: blue'>
-    </div>
-  </form> -->
-
-  <div>
-    <button type="button" id="LEFT" class="button" value=true>LEFT</button>
-    <button type="button" id="JUMP" class="button" value=true>JUMP</button>
-    <button type="button" id="RIGHT" class="button" value=true>RIGHT</button>
+    <fieldset class="ui-grid-a">
+      <div class="ui-block-a"><input type="button" class="button" id="L" value="LEFT"></div>
+      <div class="ui-block-b"><input type="button" class="button" id="R" value="RIGHT"></div>
+    </fieldset>
   </div>
+
+
   <script src="/send-osc.js"></script>
 </body>
 
