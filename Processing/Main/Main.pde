@@ -29,7 +29,7 @@ void setup() {
 void draw() {
   background(106);
 
-  //randomSeed(200);
+  randomSeed(600);
 
   fill(#FF0000);
   //circle(width/2, height/2, 20);
@@ -53,40 +53,28 @@ void oscEvent(OscMessage m) {
 
   // #### Appends new client to clientList ### //
   if (address.equals("/clientJoin")) {
+    
+    // LOGISTIQUE
     client = m.get(0).stringValue();
+    println("Joined: " + client);
+    clientList.add(client);
+    
+    // ADDS NEW PLAYER TO THE SCENE
     players.add(new Player(60+tempX, height/2, 40, 80, client));
     tempX += 60;
     
-    println("Joined: " + client);
-    clientList.add(client);
-    //randomSeed(564);
-    //Player p = new Player(random(20, width-20), height/2, 40, 80, client);
-    //players.add(p);
-    
-    
-    
-    printArray(players);
+    //printArray(players);
     printArray(clientList);
   } 
   // #### Removes the diconnected client from clientList ### //
   else if (address.equals("/clientLeft")) {
 
      // LOGISTIQUE
-    client = m.get(0).stringValue();
-    //String client = m.get(0).stringValue();
-    int index = clientList.indexOf(client);
-    clientList.remove(index);
+    client = m.get(0).stringValue(); // Grabs the client IP
+    int index = clientList.indexOf(client); // Gets the index of the disconnected client
+    clientList.remove(index); // Removes the client from the connected client list
+    players.remove(index); // Removes the player with the index of the disconnected client
     
-    players.remove(index);
-    
-    //for(int i = players.size()-1; i >= 0; i--){
-    //   if(players.get(i).id() == client){
-    //      players.remove(i);
-    //      //println(players.get(i).id());
-    //   }
-       
-       
-    //}
     
     
     // DEBUG PRINTSSSSSSSS
@@ -95,7 +83,6 @@ void oscEvent(OscMessage m) {
     printArray(players);
   } 
 
-  //println(m);
 
 
   //else if (address.equals("/button")) {
@@ -111,15 +98,4 @@ void UI() {
   textAlign(LEFT, BOTTOM);
   textSize(20);
   text("Clients: " + clientList, 5, height-5);
-}
-
-void player(float _x, float _y, float _w, float _h, String _id) {
-  rectMode(CENTER);
-  pushMatrix();
-  translate(_x, _y);
-  fill(random(0, 255), random(0, 255), random(0, 255));
-  rect(0, 0, _w, _h, 20);
-  textAlign(CENTER, BOTTOM);
-  text(_id, 0, -_h/2);
-  popMatrix();
 }
