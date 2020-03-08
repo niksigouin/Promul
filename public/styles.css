@@ -1,3 +1,7 @@
+body {
+      background-color: black;
+}
+
 div {
     margin: 10px;
     margin-top: 75px; 
@@ -42,6 +46,6 @@ div {
       cursor: pointer;
 }
 
-.button {
+/* .button {
       margin-top: 50px;
-}
+} */

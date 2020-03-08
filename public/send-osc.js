@@ -6,7 +6,7 @@ $(function() {
       var idname = $(this).attr('id');
       var val = $(this).val();
       sendosc(type, val, idname);
-      console.log('Message from ' + idname, " With value: " + val); 
+      console.log('Message from ' + idname, "With value: " + val); 
     });
 
     $(":button").click(function(){
@@ -15,7 +15,7 @@ $(function() {
           var val = $(this).val();
           // console.log("A button is pressed");
           sendosc(type, val, idname);
-          console.log('Message from ' + idname, " With value: " + val); 
+          console.log('Message from ' + idname, "With value: " + val); 
     });
 });
 
