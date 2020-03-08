@@ -14,14 +14,22 @@
 </head>
 
 <body>
-    <fieldset class="ui-grid-a">
-      <div class="ui-block-a"><input type="button" class="button" id="L" value="LEFT"></div>
-      <div class="ui-block-b"><input type="button" class="button" id="R" value="RIGHT"></div>
-    </fieldset>
+  <fieldset class="ui-grid-a">
+    <div class="ui-block-a" data-role="button"><input type="button" class="button" id="L" value="LEFT" ></div>
+    <div class="ui-block-b" data-role="button"><input type="button" class="button" id="R" value="RIGHT"></div>
+    <!-- <div class="ui-block-a" data-role="button">LEFT</div>
+      <div class="ui-block-b" data-role="button">RIGHT</div> -->
+  </fieldset>
   </div>
 
 
   <script src="/send-osc.js"></script>
+  <script>
+    $(document).ready(function () {
+      styles = { 'height': '100vh', 'font-size': '48px', 'line-height' : '100vh'};
+      $('.ui-btn').css(styles);
+    });
+  </script>
 </body>
 
 </html>
