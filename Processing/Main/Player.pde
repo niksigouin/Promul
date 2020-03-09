@@ -21,8 +21,10 @@ class Player {
     colorMode(HSB, 360,100,100);
     rectMode(CENTER);
     pushMatrix();
-    translate(playerX, playerY);
+    translate(playerX, playerY-playerHeight/2);
     fill(pColor);
+    stroke(3);
+    strokeWeight(3);
     rect(0, 0, playerWidth, playerHeight, 20);
     fill(0);
     textAlign(CENTER, BOTTOM);
@@ -38,7 +40,7 @@ class Player {
     playerY+=velocityY;
 
     playerX = constrain(playerX, playerWidth/2, width-playerWidth/2); 
-    playerY = constrain(playerY, playerHeight/2, height-playerHeight/2);
+    //playerY = constrain(playerY, floorWallSplit, floorWallSplit-playerHeight/2);
 
     switch(_dir) {
     case "L": // LEFT
