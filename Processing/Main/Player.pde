@@ -1,59 +1,67 @@
 class Player {
-  float pX, pY, pW, pH; // Player position and scale vars.
-  float vX, vY; // Velocity vars.
-  float aX, aY; // Acceleration vars.
-  String pID;
-
-
-
+  float playerX, playerY, playerWidth, playerHeight; // Player position and scale vars.
+  float velocityX, velocityY; // Velocity vars.
+  float accelerationX, accelerationY; // Acceleration vars.
+  String playerID; // Player Identifier variable
+  
+  //float ok = map(toInt(playerID,3),0,255,0,360);
+  // Get a random color taking acoun the user ID
+  final color pColor = color( random(0, 360), 100, random(75,100));
+  
 
   Player(float _x, float _y, float _w, float _h, String _id) {
-    pX = _x;
-    pY = _y;
-    pW = _w;
-    pH = _h;
-    pID = _id;
+    playerX = _x;
+    playerY = _y;
+    playerWidth = _w;
+    playerHeight = _h;
+    playerID = _id;
   }
- 
+
   void display() {
-    colorMode(HSB, 255);
+    colorMode(HSB, 360,100,100);
     rectMode(CENTER);
     pushMatrix();
-    translate(pX, pY);
-    fill(getColor(), getColor(), 255);
-    rect(0, 0, pW, pH, 20);
+    translate(playerX, playerY);
+    fill(pColor);
+    rect(0, 0, playerWidth, playerHeight, 20);
     fill(0);
     textAlign(CENTER, BOTTOM);
-    text(getColor(), 0, -pH/2);
+    // DISPLAY USER ID
+    //text(toInt(playerID,3), 0, -playerHeight/2);
     popMatrix();
   }
 
   void move(String _dir) {
-    vX+=aX;
-    vY+=aY;
-    pX+=vX;
-    pY+=vY;
-    
-    pX = constrain(pX, pW/2, width-pW/2); 
-    pY = constrain(pY, pH/2, height-pH/2);
-    
+    velocityX+=accelerationX;
+    velocityY+=accelerationY;
+    playerX+=velocityX;
+    playerY+=velocityY;
+
+    playerX = constrain(playerX, playerWidth/2, width-playerWidth/2); 
+    playerY = constrain(playerY, playerHeight/2, height-playerHeight/2);
+
     switch(_dir) {
     case "L": // LEFT
-      vX = -4;
+      velocityX = -4;
       break;
     case "U": // UP
-      //vY -= 4;
+      //velocityY -= 4;
       break;
     case "R": // RIGHT
-      vX = 4;
+      velocityX = 4;
       break;
     default:
-      vX = 0;
-      vY = 0;
+      velocityX = 0;
+      velocityY = 0;
     }
   }
 
-  Integer getColor() {
-    return Integer.parseInt(pID.substring(10).trim());
-  }
+
+  // Parses and return last 3 digits of user ID (equivilent to their IP) //
+  int toInt(String _string, int _index) {
+    String[] tempStr = _string.split("[.]", -2);
+    return Integer.parseInt(tempStr[_index]);
+    
+    // ELSE RETURN "INVALIDE"
+  } 
 }

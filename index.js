@@ -5,6 +5,8 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const { Client, Message } = require('node-osc');
 
+var httpport = 8080;
+
 var clientIp;
 //Creates empty list of connected users
 userList = [];
@@ -53,11 +55,11 @@ io.on('connection', function (socket) {
 
         //Send the list of connected IPS to the OSC
         client.send('/client', userList);
-        client.send('/clientLeft', user)
+        client.send('/clientLeft', user);
         console.log("IPs: ", userList);
     });
 });
-var httpport = 8080;
+
 http.listen(httpport, function () {
     console.log('Listening on: ', "", ":", httpport);
 

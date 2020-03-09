@@ -1,7 +1,6 @@
 var socket = io();
 
 $(function () {
-  // $(":input").draggable();
   var timeOut;
 
   $(":button").on("mousedown vmousedown",function () {

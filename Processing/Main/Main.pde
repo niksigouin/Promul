@@ -5,31 +5,23 @@ import oscP5.*;
 
 OscP5 oscP5;
 NetAddress myRemoteLocation;
-Player player;
 
 ArrayList clientList = new ArrayList();
 ArrayList<Player> players = new ArrayList<Player>();
 
 String client;
 
-ListIterator iterator = players.listIterator(); 
-
-float tempX; 
+//ListIterator iterator = players.listIterator();
 
 void setup() {
   size(1280, 720, P2D);
   smooth();
   oscP5 = new OscP5(this, 3334);
   myRemoteLocation = new NetAddress("127.0.0.1", 3334);
-
-
-  //player = new Player(width/2, height/2, 20, 40, "NIKO");
 }
 
 void draw() {
   background(106);
-
-  randomSeed(600);
 
   fill(#FF0000);
   //circle(width/2, height/2, 20);
@@ -39,7 +31,6 @@ void draw() {
 
   for (int i=0; i < players.size(); i++) {
     players.get(i).display();
-    //players.get(i).move();
   }
 }
 
@@ -61,7 +52,6 @@ void oscEvent(OscMessage m) {
 
     // ADDS NEW PLAYER TO THE SCENE
     players.add(new Player(width/2, height/2, 40, 80, client));
-    tempX += 60;
 
     //printArray(players);
     printArray(clientList);
@@ -94,13 +84,13 @@ void oscEvent(OscMessage m) {
     players.get(index).move(dir); // Move player
   } 
 
-  String addr = m.addrPattern();
-  String ad = m.get(0).stringValue();
-  String toggle = m.get(1).stringValue();
+  //String addr = m.addrPattern();
+  //String ad = m.get(0).stringValue();
+  //String toggle = m.get(1).stringValue();
 
-  println(addr);
-  println(ad);
-  println(toggle);
+  //println(addr, ad, toggle);
+  //println(ad);
+  //println(toggle);
 
   //println(m);
 }
