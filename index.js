@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
     //Adds user ID to list and prints it
     userList.push(user);
     console.log(user + " connected");
-    console.log("Users: ", userList)
+    console.log("Users:", userList)
 
     //Send the list of connected users to the OSC
     // client.send('/client', userList);
@@ -51,11 +51,11 @@ io.on('connection', function (socket) {
         //Send the list of connected IPS to the OSC
         // client.send('/client', userList);
         client.send('/clientLeft', user);
-        console.log("IDs: ", userList);
+        console.log("IDs:", userList);
     });
 });
 
 http.listen(httpport, function () {
-    console.log('Listening on: ', "", ":", httpport);
+    console.log('Listening on:', httpport);
 
 });

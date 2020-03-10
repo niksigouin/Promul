@@ -34,6 +34,7 @@ class Player {
   }
 
   void move(String _dir) {
+    redraw();
     velocityX+=accelerationX;
     velocityY+=accelerationY;
     playerX+=velocityX;
