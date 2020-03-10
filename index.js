@@ -18,32 +18,27 @@ io.on('connection', function (socket) {
     clientIp = "127.0.0.1";
     const client = new Client(clientIp, 3334);
 
-    // Gets IP for connected user
-    // Removes the ::ffff: if on IPv6
-    var user = (socket.handshake.address).replace("::ffff:","");;
+    // Gets random ID for connected user
+    var user = Math.random().toString(36).substr(2, 9);
 
-    //Adds user IP to list and prints it
+    //Adds user ID to list and prints it
     userList.push(user);
     console.log(user + " connected");
-    console.log("IPs: ", userList)
+    console.log("Users: ", userList)
 
-    //Send the list of connected IPS to the OSC
-    client.send('/client', userList);
+    //Send the list of connected users to the OSC
+    // client.send('/client', userList);
     client.send('/clientJoin', user)
 
     // Gets the input from the webpage and sends it through OSC
     socket.on('change:interval',function (type, val) {
-        // Converts the input into an int
-        // var value = Number(val);
-
         // Prepares the Message to ship to OSC
-        // var msg = new Message('/' + user + '/' + type + '/' + name, value);
         var msg = new Message('/' + type, user, val);
         client.send(msg);
         // console.log(msg);
     });
 
-    // Gets every connected client ID and send a list
+    // Gets every connected client and send a list
     socket.on("disconnect", function () {
         //Removes disconnected users
         var index = userList.indexOf(user);
@@ -54,9 +49,9 @@ io.on('connection', function (socket) {
         console.log(user + ' disconnected');
 
         //Send the list of connected IPS to the OSC
-        client.send('/client', userList);
+        // client.send('/client', userList);
         client.send('/clientLeft', user);
-        console.log("IPs: ", userList);
+        console.log("IDs: ", userList);
     });
 });
 
@@ -64,6 +59,3 @@ http.listen(httpport, function () {
     console.log('Listening on: ', "", ":", httpport);
 
 });
-
-
-// CHECK EXPRESS IP

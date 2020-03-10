@@ -18,6 +18,7 @@ void setup() {
   smooth();
   oscP5 = new OscP5(this, 3334);
   myRemoteLocation = new NetAddress("127.0.0.1", 3334);
+  debug = true;
 }
 
 void draw() {
@@ -26,16 +27,16 @@ void draw() {
   // Background art work
 
 
-  //wall(0, 0, width, height * floorWallSplit);
-  //entry(width/2, height * floorWallSplit, 482.0, 626.0);
-  //pushMatrix();
-  //translate(77/2, height * floorWallSplit);
-  //bench(0, 0, 75, 45);
-  //bench(75, 0, 75, 45);
-  //bench(75*2, 0, 75, 45);
-  //popMatrix();
-  //subFloor(0, height * floorWallSplit, width, height - height * floorWallSplit);
-  //metroMap(260, 320, 0.25);
+  wall(0, 0, width, height * floorWallSplit);
+  entry(width/2, height * floorWallSplit, 482.0, 626.0);
+  pushMatrix();
+  translate(77/2, height * floorWallSplit);
+  bench(0, 0, 75, 45);
+  bench(75, 0, 75, 45);
+  bench(75*2, 0, 75, 45);
+  popMatrix();
+  subFloor(0, height * floorWallSplit, width, height - height * floorWallSplit);
+  metroMap(260, 320, 0.25);
 
 
   // Draws the UI

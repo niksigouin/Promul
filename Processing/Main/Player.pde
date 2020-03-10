@@ -29,7 +29,7 @@ class Player {
     fill(0);
     textAlign(CENTER, BOTTOM);
     // DISPLAY USER ID
-    //text(toInt(playerID,3), 0, -playerHeight/2);
+    text(playerID, 0, -playerHeight/2);
     popMatrix();
   }
 
@@ -57,13 +57,4 @@ class Player {
       velocityY = 0;
     }
   }
-
-
-  // Parses and return last 3 digits of user ID (equivilent to their IP) //
-  int toInt(String _string, int _index) {
-    String[] tempStr = _string.split("[.]", -2);
-    return Integer.parseInt(tempStr[_index]);
-    
-    // ELSE RETURN "INVALIDE"
-  } 
 }
