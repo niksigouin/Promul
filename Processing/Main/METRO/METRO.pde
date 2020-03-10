@@ -15,7 +15,7 @@ void draw() {
 
   wall(0, 300, width, height * floorWallSplit);
   banner(0, 300, width);
-  entry(width/2, height * floorWallSplit, 482.0, 626.0);
+  entry(width/2, height * floorWallSplit, 482.0, height*0.75); //554.9
   pushMatrix();
   translate(77/2, height * floorWallSplit);
   bench(0, 0, 75, 45);
@@ -23,7 +23,7 @@ void draw() {
   bench(75*2, 0, 75, 45);
   popMatrix();
   subFloor(0, height * floorWallSplit, width, height - height * floorWallSplit);
-  metroMap(260, 320, 0.25);
+  metroMap(260, 337, 0.25);
 
   //// CENTER
   //stroke(#00FF00);
@@ -53,16 +53,21 @@ void banner(float _x, float _y, float _w) {
   pushMatrix();
   // BLACK BANNER
   float bannerH = 40;
-  translate(_x, _y-bannerH/2);
+  translate(_x, _y-bannerH);
   fill(0);
   noStroke();
   rect(0, 0, _w, bannerH);
-
+  popMatrix();
+  
+  //pushMatrix();
+  //translate(_w * 0.19 ,_y-bannerH * 0.56);
   textAlign(CENTER, CENTER);
   fill(255);
-  text("ALGO", 0, 0);
-
-  popMatrix();
+  textSize(20.00);
+  text("ALGO", _w * 0.19 ,_y-bannerH * 0.56);
+  text("ALGO", _w - _w * 0.19 ,_y-bannerH * 0.56);
+  //popMatrix();
+  
 }
 
 void wall(float _x, float _y, float _w, float _h) {
@@ -80,7 +85,7 @@ void wall(float _x, float _y, float _w, float _h) {
 
   // TILES
   for (float horz=0; horz <= numX; horz ++) {
-    for (float vert=0; vert <= numY-1; vert ++) {
+    for (float vert=0; vert <= numY; vert ++) {
       pushMatrix();
       translate(brickW * horz, brickH * vert);
       stroke(#777777);
