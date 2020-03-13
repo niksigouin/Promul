@@ -4,7 +4,7 @@ ArrayList brickColors;
 
 void setup() {
   size(1280, 720, P2D);
-  brickColors = randomColor(5000);
+  brickColors = randomColor(10000);
   //println(brickColors);
 }
 
@@ -13,9 +13,9 @@ void draw() {
   smooth();
 
 
-  wall(0, 300, width, height * floorWallSplit);
+  wall(0, 300, width, (height * floorWallSplit)- 300);
   banner(0, 300, width);
-  entry(width/2, height * floorWallSplit, 482.0, height*0.75); //554.9
+  entry(width/2, height * floorWallSplit, 482.0, height*floorWallSplit); //554.9
   pushMatrix();
   translate(77/2, height * floorWallSplit);
   bench(0, 0, 75, 45);
@@ -58,43 +58,42 @@ void banner(float _x, float _y, float _w) {
   noStroke();
   rect(0, 0, _w, bannerH);
   popMatrix();
-  
-  //pushMatrix();
-  //translate(_w * 0.19 ,_y-bannerH * 0.56);
+
   textAlign(CENTER, CENTER);
   fill(255);
   textSize(20.00);
-  text("ALGO", _w * 0.19 ,_y-bannerH * 0.56);
-  text("ALGO", _w - _w * 0.19 ,_y-bannerH * 0.56);
-  //popMatrix();
-  
+  text("ALGO", _w * 0.19, _y-bannerH * 0.56);
+  text("ALGO", _w - _w * 0.19, _y-bannerH * 0.56);
 }
 
 void wall(float _x, float _y, float _w, float _h) {
   pushMatrix();
 
-  float numX = 96.04;
-  float numY = 48.02;
+  float brickSize = 10;
 
-  float brickW = (_w) / numX;
-  float brickH = (_h) / numY;
-
+  float numX = (_w) / brickSize;
+  float numY = (_h) / brickSize;
+  
   int colorCount = 0;
 
-  translate(_x - (brickW/2), _y);
+  translate(_x, _y);
 
   // TILES
   for (float horz=0; horz <= numX; horz ++) {
     for (float vert=0; vert <= numY; vert ++) {
-      pushMatrix();
-      translate(brickW * horz, brickH * vert);
-      stroke(#777777);
-      strokeWeight(1.5);
-      fill((color)brickColors.get(colorCount++));
-      rect(0, 0, brickW, brickH);
-      popMatrix();
+      drawTile(brickSize * horz, brickSize * vert, brickSize, brickSize, colorCount++);
     }
   }
+  popMatrix();
+}
+
+void drawTile(float _x, float _y, float _w, float _h, int _color) {
+  pushMatrix();
+  translate(_x, _y);
+  stroke(#777777);
+  strokeWeight(1.5);
+  fill((color)brickColors.get(_color));
+  rect(0, 0, _w, _h);
   popMatrix();
 }
 
@@ -247,7 +246,7 @@ void metroMap(float _x, float _y, float _s) {
 // FUNCTIONS
 // Function that stores and returns a random color from a given color pallette
 ArrayList randomColor(int _size) {
-  
+
   // Creates an array of colors & inital size of color palette
   color[] colorPalette = new color[3]; 
   // Colors in palette
