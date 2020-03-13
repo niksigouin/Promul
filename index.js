@@ -20,6 +20,7 @@ io.on('connection', function (socket) {
 
     // Gets random ID for connected user
     var user = Math.random().toString(36).substr(2, 9);
+    
 
     //Adds user ID to list and prints it
     userList.push(user);
@@ -51,7 +52,7 @@ io.on('connection', function (socket) {
         //Send the list of connected IPS to the OSC
         // client.send('/client', userList);
         client.send('/clientLeft', user);
-        console.log("IDs:", userList);
+        console.log("Users:", userList);
     });
 });
 
