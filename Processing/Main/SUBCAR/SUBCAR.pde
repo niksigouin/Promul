@@ -49,27 +49,34 @@ void cabin(float _x, float _y) {
   float rightPH = cabinH - botPH;
   rect(cabinW-rightPW, -cabinH, rightPW, rightPH); // Right panel
 
+  
+  // 
   beginShape();
-  vertex(0, -botPH); // LEFT
-  vertex((bottomW-rightPW)+0.5, -botPH-rightPH); // TOP
-
-  //curve(0,0,0, -botPH,0,0,(bottomW-rightPW)+0.5, -botPH-rightPH);
-  //bezier(0, -botPH, (bottomW-rightPW)+0.5, 0, 0, 0, 0, -botPH-rightPH);
-
+  curveVertex(cabinH/2, -cabinH);
+  curveVertex(0, -botPH);
+  curveVertex((bottomW-rightPW)+0.5, -botPH-rightPH);
+  curveVertex(1075, -cabinH/2);
   vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
+
+  // Contour for window
   beginContour();
-  vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
-  vertex((bottomW-rightPW)+0.5, (-botPH-rightPH)+20); // TOP
-  vertex(20, -botPH); // LEFT
+  curveVertex(920, (-cabinH/2)+20.0);
+  curveVertex((bottomW-rightPW)+0.0, (-botPH-rightPH)+20.0);
+  curveVertex(20, -botPH+0.0);
+  curveVertex((cabinH/2)+20.0, -cabinH+92.4);
+  vertex((bottomW-rightPW)+0.0, -botPH+0.0); // CENTER
   endContour();
-  endShape(OPEN);
+  endShape(CLOSE);
+  
 
   // WINDOW
   beginShape();
   fill(windowColor);
-  vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
-  vertex((bottomW-rightPW)+0.5, (-botPH-rightPH)+20); // TOP
-  vertex(20, -botPH); // LEFT
+  curveVertex(920, (-cabinH/2)+20.0);
+  curveVertex((bottomW-rightPW)+0.0, (-botPH-rightPH)+20.0);
+  curveVertex(20, -botPH+0.0);
+  curveVertex((cabinH/2)+20.0, -cabinH+92.4);
+  vertex((bottomW-rightPW)+0.0, -botPH+0.0); // CENTER
   endShape(OPEN);
 
   popMatrix();

@@ -15,7 +15,7 @@ void draw() {
 
   wall(0, 300, width, (height * floorWallSplit)- 300);
   banner(0, 300, width);
-  entry(width/2, height * floorWallSplit, 482.0, height*floorWallSplit); //554.9
+  entry(width/2, height * floorWallSplit, 477.4, height*floorWallSplit); //554.9
   pushMatrix();
   translate(77/2, height * floorWallSplit);
   bench(0, 0, 75, 45);
@@ -99,11 +99,11 @@ void drawTile(float _x, float _y, float _w, float _h, int _color) {
 
 void entry(float _x, float _y, float _w, float _h) {
   pushMatrix();
-  translate(_x + 0.00, _y + -23.51);
+  translate(_x + 0.00, _y + 30.0);
   rectMode(CENTER);
   noStroke();
   fill(106);
-  rect(0, 0, _w, _h, 246);
+  rect(0, 0, _w, _h, 0);
   popMatrix();
 }
 
