@@ -1,12 +1,13 @@
 
 void setup() {
   size(1280, 720);
+  noStroke();
 }
 
 void draw() {
   background(106);
   //fill(#00ff00);
-  //rect(width * 0.2, height * 0.2, width * 0.6, 250);
+  //rect(0, height * 0.2, width, 250);
   subway(width * 0.2, height * 0.75);
 }
 
@@ -15,24 +16,69 @@ void subway(float _x, float _y) {
   translate(_x, _y);
   cabin(0, 0);
   wagon(0, 0);
+  pushMatrix();
+  scale(-1, 1);
+  translate(width*-0.6, 0);
+  cabin(0, 0);
+  popMatrix();
 
   popMatrix();
 }
 
 void cabin(float _x, float _y) {
+  fill(179, 179, 179, 255);
+  color windowColor = 1923808251;
   float cabinW = width * 0.2;
-  float cabinH = 130;
+  float cabinH = 250;
+
+  float bottomW = cabinW;
+  float bottomH = 130;
 
   // TOP SECTION
   pushMatrix();
-  translate(_x, _y);
+  translate(_x-cabinW, _y);
+  //noStroke();
+
+  float botPH = 82;
+  pushStyle();
+  fill(255, 255, 255);
+  rect(0, -botPH, cabinW, botPH); // Bottom Panel
+  popStyle();
+
+  float rightPW = cabinW * 0.40;
+  float rightPH = cabinH - botPH;
+  rect(cabinW-rightPW, -cabinH, rightPW, rightPH); // Right panel
+
+  beginShape();
+  vertex(0, -botPH); // LEFT
+  vertex((bottomW-rightPW)+0.5, -botPH-rightPH); // TOP
+
+  //curve(0,0,0, -botPH,0,0,(bottomW-rightPW)+0.5, -botPH-rightPH);
+  //bezier(0, -botPH, (bottomW-rightPW)+0.5, 0, 0, 0, 0, -botPH-rightPH);
+
+  vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
+  beginContour();
+  vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
+  vertex((bottomW-rightPW)+0.5, (-botPH-rightPH)+20); // TOP
+  vertex(20, -botPH); // LEFT
+  endContour();
+  endShape(OPEN);
+
+  // WINDOW
+  beginShape();
+  fill(windowColor);
+  vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
+  vertex((bottomW-rightPW)+0.5, (-botPH-rightPH)+20); // TOP
+  vertex(20, -botPH); // LEFT
+  endShape(OPEN);
+
   popMatrix();
 
   // BOTTOM SECTION
   pushMatrix();
-  translate(_x-cabinW, _y);
+  translate(_x-bottomW, _y);
   fill(#767676);
-  rect(0, 0, cabinW, cabinH);
+  rect(0, 0, bottomW, bottomH);
   popMatrix();
 }
 
@@ -90,7 +136,6 @@ void wagon(float _x, float _y) {
   translate((_x + (wagonW * 0.20 - (windowW * 0.50))), _y-doorH);
   //line(windowW/2, 0, windowW/2, windowH); // DEGUB LINE
   fill(windowColor);
-  stroke(0);
   rect(0, 0, windowW, windowH);
   popMatrix();
 
@@ -99,7 +144,6 @@ void wagon(float _x, float _y) {
   translate((_x + (wagonW * 0.80 - (windowW * 0.50))), _y-doorH);
   //line(windowW/2, 0, windowW/2, windowH); // DEGUB LINE
   fill(windowColor);
-  stroke(0);
   rect(0, 0, windowW, windowH);
   popMatrix();
 
@@ -112,7 +156,7 @@ void wagon(float _x, float _y) {
   rect(0, (doorH * 0.60)+wagonOffset, doorW, (doorH * 0.40)-wagonOffset); // BOTTOM
   rect(0, wagonOffset, wagonOffset, doorH * 0.60); // LEFT
   rect(doorW-wagonOffset, wagonOffset, wagonOffset, doorH * 0.60); // LEFT
-  stroke(0);
+  //stroke(0);
   noFill();
   rect(0, 0, doorW, doorH); // CONTOUR
   fill(#c9f8fa, 140);
@@ -129,7 +173,7 @@ void wagon(float _x, float _y) {
   pushMatrix();
   translate(_x, _y-topH);
   fill(0, 0, 0, 0);
-  stroke(0);
+  //stroke(0);
   rect(0, 0, topW, topH);
   popMatrix();
 

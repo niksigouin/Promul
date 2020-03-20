@@ -3,7 +3,7 @@ float floorWallSplit = 0.75;
 ArrayList brickColors;
 
 void setup() {
-  size(1280, 720, P2D);
+  size(1280, 720);
   brickColors = randomColor(10000);
   //println(brickColors);
 }
@@ -73,7 +73,7 @@ void wall(float _x, float _y, float _w, float _h) {
 
   float numX = (_w) / brickSize;
   float numY = (_h) / brickSize;
-  
+
   int colorCount = 0;
 
   translate(_x, _y);
@@ -250,9 +250,12 @@ ArrayList randomColor(int _size) {
   // Creates an array of colors & inital size of color palette
   color[] colorPalette = new color[3]; 
   // Colors in palette
-  colorPalette[0] = #EEEEEE;
-  colorPalette[1] = #CCCCCC;
-  colorPalette[2] = #999999;
+  //colorPalette[0] = #EEEEEE;
+  //colorPalette[1] = #CCCCCC;
+  //colorPalette[2] = #999999;
+  colorPalette[0] = color(151,160,141);
+  colorPalette[1] = color(148,152,117);
+  colorPalette[2] = color(114,116,92);
 
   // Creates temporary palette with random color assignement
   ArrayList tempArray = new ArrayList();
