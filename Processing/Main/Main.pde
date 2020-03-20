@@ -9,16 +9,21 @@ NetAddress myRemoteLocation;
 ArrayList clientList = new ArrayList();
 ArrayList<Player> players = new ArrayList<Player>();
 
+// LOCAL PLAYER
+Player localPlayer;
+String localPlayerDir;
+
 String client;
 float floorWallSplit = 0.75;
 boolean debug = false; // SHOW DEBUG UI
 
 void setup() {
-  size(1280, 720,P2D);
+  size(1280, 720, P2D);
   smooth();
   oscP5 = new OscP5(this, 3334);
   myRemoteLocation = new NetAddress("127.0.0.1", 3334);
   debug = true;
+  localPlayer = new Player(width/2, height * floorWallSplit, 65, 130, "LOCAL");
 }
 
 void draw() {
@@ -47,7 +52,43 @@ void draw() {
   for (int i=0; i < players.size(); i++) {
     players.get(i).display();
   }
+
+  localPlayer.display();
+  //localPlayer.move(localPlayerDir);
+  if (keyPressed) {
+    switch(key) {
+    case 'a':
+      localPlayer.move("L");
+      break;
+    case 'w':
+      //localPlayer.move("U");
+      break;
+    case 'd':
+      localPlayer.move("R");
+      break;
+    default:
+      localPlayer.move("ENTER");
+      break;
+    }
+  }
 }
+
+// LOCAL PLAYER MOVEMENT
+//void keyPressed() {
+//  switch(key) {
+//  case 'a':
+//    localPlayer.move("L");
+//    break;
+//  case 'w':
+//    //localPlayer.move("U");
+//    break;
+//  case 'd':
+//    localPlayer.move("R");
+//    break;
+//  default:
+//    break;
+//  }
+//}
 
 void oscEvent(OscMessage m) {
   String address = m.addrPattern();
