@@ -1,13 +1,15 @@
 // var app = require('express')();
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const internalIp = require('internal-ip');
 const { Client, Message } = require('node-osc');
 
 var httpport = 8080;
 
 var clientIp;
+
 //Creates empty list of connected users
 userList = [];
 
@@ -57,6 +59,7 @@ io.on('connection', function (socket) {
 });
 
 http.listen(httpport, function () {
-    console.log('Listening on:', httpport);
+    console.log('Connect to: ', internalIp.v4.sync() + ":" + httpport);
+    // console.log('Listening on:', httpport);
 
 });

@@ -53,8 +53,10 @@ void draw() {
     players.get(i).display();
   }
 
+  // LOCAL PLAYER DISPLAY
   localPlayer.display();
-  //localPlayer.move(localPlayerDir);
+  
+  // LOCAL PLAYER MOVEMENT
   if (keyPressed) {
     switch(key) {
     case 'a':
@@ -72,23 +74,6 @@ void draw() {
     }
   }
 }
-
-// LOCAL PLAYER MOVEMENT
-//void keyPressed() {
-//  switch(key) {
-//  case 'a':
-//    localPlayer.move("L");
-//    break;
-//  case 'w':
-//    //localPlayer.move("U");
-//    break;
-//  case 'd':
-//    localPlayer.move("R");
-//    break;
-//  default:
-//    break;
-//  }
-//}
 
 void oscEvent(OscMessage m) {
   String address = m.addrPattern();
