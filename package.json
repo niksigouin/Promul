@@ -4,8 +4,9 @@
     "description": "my first socket.io app",
     "dependencies": {
         "express": "^4.17.1",
+        "internal-ip": "^6.0.0",
         "ipware": "^2.0.0",
-        "node-osc": "^4.1.5",
+        "node-osc": "^4.1.8",
         "socket.io": "^2.3.0"
     }
 }

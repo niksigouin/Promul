@@ -1,39 +1,21 @@
-import java.util.*;
-import java.io.*;
-import netP5.*;
-import oscP5.*;
-
-OscP5 oscP5;
-NetAddress myRemoteLocation;
-
-ArrayList clientList = new ArrayList();
-ArrayList<Player> players = new ArrayList<Player>();
-
-// LOCAL PLAYER
-Player localPlayer;
-String localPlayerDir;
-
-String client;
+//float brickColor;
 float floorWallSplit = 0.75;
-boolean debug = false; // SHOW DEBUG UI
+ArrayList brickColors;
 
 void setup() {
-  size(1280, 720, P2D);
-  smooth();
-  oscP5 = new OscP5(this, 3334);
-  myRemoteLocation = new NetAddress("127.0.0.1", 3334);
-  debug = true;
-  localPlayer = new Player(width/2, height * floorWallSplit, 65, 130, "LOCAL");
+  size(1280, 720);
+  brickColors = randomColor(10000);
+  //println(brickColors);
 }
 
 void draw() {
-  background(106);
-  //redraw();
-  // Background art work
+  background(166);
+  smooth();
 
 
-  wall(0, 0, width, height * floorWallSplit);
-  entry(width/2, height * floorWallSplit, 482.0, 626.0);
+  wall(0, 300, width, (height * floorWallSplit)- 300);
+  banner(0, 300, width);
+  entry(width/2, height * floorWallSplit, 477.4, height*floorWallSplit); //554.9
   pushMatrix();
   translate(77/2, height * floorWallSplit);
   bench(0, 0, 75, 45);
@@ -41,109 +23,14 @@ void draw() {
   bench(75*2, 0, 75, 45);
   popMatrix();
   subFloor(0, height * floorWallSplit, width, height - height * floorWallSplit);
-  metroMap(260, 320, 0.25);
+  metroMap(260, 337, 0.25);
 
-
-  // Draws the UI
-  if (debug) {
-    UI();
-  }
-
-  for (int i=0; i < players.size(); i++) {
-    players.get(i).display();
-  }
-
-  // LOCAL PLAYER DISPLAY
-  localPlayer.display();
-  
-  // LOCAL PLAYER MOVEMENT
-  if (keyPressed) {
-    switch(key) {
-    case 'a':
-      localPlayer.move("L");
-      break;
-    case 'w':
-      //localPlayer.move("U");
-      break;
-    case 'd':
-      localPlayer.move("R");
-      break;
-    default:
-      localPlayer.move("ENTER");
-      break;
-    }
-  }
+  //// CENTER
+  //stroke(#00FF00);
+  //strokeWeight(2);
+  //line(width * 0.50, 0, width * 0.50, height); // Horz.
+  //line(0, height * 0.50, width, height * 0.50); // Vert.
 }
-
-void oscEvent(OscMessage m) {
-  String address = m.addrPattern();
-  // Gets the first value of the osc message (Use of idex is for an array of values
-  // EX: 
-  // OSC MESSAGE OBJECT -> {IP ADDRESS}/XYPAD [12, 19]
-  // int x = theOscMessage.get(0).intValue();
-  // int y = theOscMessage.get(1).intValue();
-
-  // #### Appends new client to clientList ### //
-  if (address.equals("/clientJoin")) {
-
-    // LOGISTIQUE
-    client = m.get(0).stringValue();
-    println("Joined: " + client);
-    clientList.add(client);
-
-    // ADDS NEW PLAYER TO THE SCENE
-    players.add(new Player(width/2, height * floorWallSplit, 65, 130, client));
-
-    //printArray(players);
-    printArray(clientList);
-  } 
-  // #### Removes the diconnected client from clientList ### //
-  else if (address.equals("/clientLeft")) {
-
-    // LOGISTIQUE
-    client = m.get(0).stringValue(); // Grabs the client IP
-    int index = clientList.indexOf(client); // Gets the index of the disconnected client
-    clientList.remove(index); // Removes the client from the connected client list
-    players.remove(index); // Removes the player with the index of the disconnected client
-
-
-
-    // DEBUG PRINTSSSSSSSS
-    println("Left: " + client);
-    printArray(clientList);
-    //printArray(players);
-  } 
-
-  if (address.equals("/button")) {
-
-    // LOGISTIQUE
-    client = m.get(0).stringValue(); // Grabs the client IP
-    String dir = m.get(1).stringValue();
-
-    int index = clientList.indexOf(client); // Gets the index of the client transmitting
-
-    players.get(index).move(dir); // Move player
-  } 
-
-  //String addr = m.addrPattern();
-  //String ad = m.get(0).stringValue();
-  //String toggle = m.get(1).stringValue();
-
-  //println(addr, ad, toggle);
-  //println(ad);
-  //println(toggle);
-
-  //println(m);
-}
-
-void UI() {
-  fill(255);
-  textAlign(LEFT, BOTTOM);
-  textSize(20);
-  text("Clients: " + clientList, 5, height-5);
-}
-
-// ####### BACKGROUND STUFFF #######
 
 void subFloor(float _x, float _y, float _w, float _h) {
   pushMatrix();
@@ -162,44 +49,61 @@ void subFloor(float _x, float _y, float _w, float _h) {
   popMatrix();
 }
 
+void banner(float _x, float _y, float _w) {
+  pushMatrix();
+  // BLACK BANNER
+  float bannerH = 40;
+  translate(_x, _y-bannerH);
+  fill(0);
+  noStroke();
+  rect(0, 0, _w, bannerH);
+  popMatrix();
+
+  textAlign(CENTER, CENTER);
+  fill(255);
+  textSize(20.00);
+  text("ALGO", _w * 0.19, _y-bannerH * 0.56);
+  text("ALGO", _w - _w * 0.19, _y-bannerH * 0.56);
+}
+
 void wall(float _x, float _y, float _w, float _h) {
   pushMatrix();
 
-  float numX = 38.00;
-  float numY = 47.00;
+  float brickSize = 10;
 
-  float brickW = (_w) / numX;
-  float brickH = (_h) / numY;
+  float numX = (_w) / brickSize;
+  float numY = (_h) / brickSize;
 
-  translate(_x - (brickW/2), _y);
+  int colorCount = 0;
 
-  fill(#6e202b);
+  translate(_x, _y);
+
+  // TILES
   for (float horz=0; horz <= numX; horz ++) {
-    for (float vert=0; vert <= numY-1; vert ++) {
-      pushMatrix();
-      translate(brickW * horz, brickH * vert);
-      stroke(0);
-      strokeWeight(1.0);
-
-      if ((vert) % 2 == 0) { // Alligned bricks
-        translate(brickW/2, 0);
-        rect(0, 0, brickW, brickH);
-      } else { // Offset bricks
-        rect(0, 0, brickW, brickH);
-      }
-      popMatrix();
+    for (float vert=0; vert <= numY; vert ++) {
+      drawTile(brickSize * horz, brickSize * vert, brickSize, brickSize, colorCount++);
     }
   }
   popMatrix();
 }
 
+void drawTile(float _x, float _y, float _w, float _h, int _color) {
+  pushMatrix();
+  translate(_x, _y);
+  stroke(#777777);
+  strokeWeight(1.5);
+  fill((color)brickColors.get(_color));
+  rect(0, 0, _w, _h);
+  popMatrix();
+}
+
 void entry(float _x, float _y, float _w, float _h) {
   pushMatrix();
-  translate(_x + 0.00, _y + -23.51);
+  translate(_x + 0.00, _y + 30.0);
   rectMode(CENTER);
   noStroke();
   fill(106);
-  rect(0, 0, _w, _h, 246);
+  rect(0, 0, _w, _h, 0);
   popMatrix();
 }
 
@@ -337,4 +241,30 @@ void metroMap(float _x, float _y, float _s) {
   bezier(280.0, 550.0, 330.0, 500.0, 310.0, 580.0, 360.0, 540.0);
 
   popMatrix();
+}
+
+// FUNCTIONS
+// Function that stores and returns a random color from a given color pallette
+ArrayList randomColor(int _size) {
+
+  // Creates an array of colors & inital size of color palette
+  color[] colorPalette = new color[3]; 
+  // Colors in palette
+  //colorPalette[0] = #EEEEEE;
+  //colorPalette[1] = #CCCCCC;
+  //colorPalette[2] = #999999;
+  colorPalette[0] = color(151,160,141);
+  colorPalette[1] = color(148,152,117);
+  colorPalette[2] = color(114,116,92);
+
+  // Creates temporary palette with random color assignement
+  ArrayList tempArray = new ArrayList();
+
+  // Parses through the given palette and adds a radom color from said palette to new color Array
+  for (int i=0; i < _size; i++) {
+    tempArray.add(colorPalette[round(random(0, colorPalette.length-1))]);
+  }
+
+  // Returns an array of randomly sorted colors
+  return tempArray;
 }
