@@ -14,17 +14,22 @@ void draw() {
 
   //fill(#00ff00);
   //rect(0, height * 0.2, width, 250);
-  subway(width * 0.2, height * 0.75);
+  subway(width * 0.2, height * 0.75, 2);
 }
 
-void subway(float _x, float _y) {  
+void subway(float _x, float _y, int _wagonAmount) {  
+  float wagonW = width * 0.6;
   pushMatrix();
   translate(_x, _y);
   cabin(0, 0);
-  wagon(0, 0);
+  for (int i=0; i < _wagonAmount; i++) {
+    wagon(wagonW*i, 0);
+  }
+
+  //wagon(0, 0);
   pushMatrix();
   scale(-1, 1);
-  translate(width*-0.6, 0);
+  translate(-wagonW*_wagonAmount, 0);
   cabin(0, 0);
   popMatrix();
 
@@ -90,7 +95,8 @@ void cabin(float _x, float _y) {
   translate(_x-bottomW, _y);
   fill(subBottomColor);
   rect(0, 0, bottomW, bottomH-20, 0, 0, 0, 61); // MAIN PEICE
-  wheel(100,80);
+  wheel(100, 80);
+  accessPanel(150, 60);
   popMatrix();
 }
 
@@ -117,7 +123,7 @@ void wagon(float _x, float _y) {
   translate(_x, _y);
   fill(subBottomColor);
   rect(0, 0, wagonW, wagonH-20.0);
-  float wheelOffset = 125;
+  float wheelOffset = 155;
   wheelDuo(wheelOffset, 80);
   wheelDuo(wagonW-wheelOffset, 80);
   popMatrix();
@@ -218,10 +224,10 @@ void wheelDuo(float _x, float _y) {
   fill(20);
   //rect(0, -25, 180, 80); // BACK PLATE
   fill(34);
-  rect(0, (-springStrutH/2) - springH/2, springStrutW/2, springStrutH, 9); // VERTIVCAL STRUT
+  rect(0, ((-springStrutH/2) - springH/2)+12.0, springStrutW/2, springStrutH, 10); // VERTIVCAL STRUT
   for (float i=1; i < numSpring - 1; i += 1.0) {                           /***********************/
     fill(75);                                                              /*  SPRINGS ON STRUT   */
-    rect(0, (-springStrutH) + (i*springH), springStrutW, springH, 43);     /***********************/
+    rect(0, ((-springStrutH) + (i*springH)) + 12.0, springStrutW, springH, 43);     /***********************/
   }
   fill(60);
   //rect(0,0,150,(springStrutW/2)-6.6); // HORIZONTAL STRUT
@@ -268,5 +274,16 @@ void wheel(float _x, float _y) {
   popStyle();
   fill(38);
   circle(0, 0, wheelSize * 0.20);
+  popMatrix();
+}
+
+void accessPanel(float _x, float _y) {
+  float accessPanelW = 100;
+  float accessPanelH = 50;
+
+  pushMatrix();
+  translate(_x, _y);
+  fill(0);
+  rect(0, -accessPanelH/2, accessPanelW, accessPanelH);
   popMatrix();
 }
