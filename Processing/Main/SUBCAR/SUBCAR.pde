@@ -1,17 +1,28 @@
 import de.looksgood.ani.*;
 import de.looksgood.ani.easing.*;
 
+// SUBWAY ANIMATOR
+AniSequence seq;
+
 // SUBWAY COLORS
 color subBottomColor, subPanelColor, windowColor;
 
-float angle, speed;
+//float angle, speed;
+float subPosX, subLength;
+int count;
 
 void setup() {
   size(1280, 720);
   noStroke();
   smooth();
-  
-  angle = -1;
+
+  subPosX = width;
+  subLength = ((width * 0.6) * 8) + ((width * 0.2)*2);
+
+  Ani.init(this);
+  seq = new AniSequence(this);
+
+  trainMove();
 }
 
 void draw() {
@@ -19,43 +30,23 @@ void draw() {
   subBottomColor = 50;
   subPanelColor = #3f71e1;
   windowColor = color(128, 193, 255, 102);
-  
-  // TRAIN MOUVEMENT SYSTEM
-  speed = 0.02;
-  boolean arrived = false;
-  
-  //if(arrived == false){
-  //   angle = -1;
-  //   arrived = true;
-  //} else if(arrived && mousePressed) {
-  //   //arrived = false; 
-  //   angle += speed;
-  //}
-  
-  //if(mousePressed){
-  //   angle += speed;
-  //}
-  
-  
-  if(cos(angle) > 0.961){
-     arrived = true;
-  }
-  
-  if(arrived){
-     
-  } else {
-    angle += speed;
-  }
-  
-  float subwayLength = ((width * 0.6) * 8) + ((width * 0.2)*2);
-  
-  
-  float trainMove = map(cos(angle), -1.0, 1.0, width, -width*4.3);
-  //println(cos(angle));
-  
 
-  subway(trainMove, height * 0.75, 8);
-  println(arrived, cos(angle), trainMove);
+  subway(subPosX, height * 0.75, 8);
+
+  // SUBWAY ANIMATION REPEATER
+  if(seq.isEnded()){
+     seq.start();
+  }
+  
+  println(seq.getDuration(),seq.isPlaying(), seq.isEnded());
+}
+
+void trainMove() {
+  seq.beginSequence();
+  seq.add(Ani.to(this, 5, 20, "subPosX", -subLength/2, Ani.QUINT_OUT));
+  seq.add(Ani.to(this, 5, 5, "subPosX", -subLength*2, Ani.QUINT_IN));
+  seq.endSequence();
+  seq.start();
 }
 
 // DRAWS SUBWAY WITH SPECIFIED AMOUNT OF WAGONS AND BOTH CONTROL CABINS
