@@ -1,9 +1,17 @@
+import de.looksgood.ani.*;
+import de.looksgood.ani.easing.*;
+
+// SUBWAY COLORS
 color subBottomColor, subPanelColor, windowColor;
+
+float angle, speed;
 
 void setup() {
   size(1280, 720);
   noStroke();
   smooth();
+  
+  angle = -1;
 }
 
 void draw() {
@@ -11,34 +19,73 @@ void draw() {
   subBottomColor = 50;
   subPanelColor = #3f71e1;
   windowColor = color(128, 193, 255, 102);
+  
+  // TRAIN MOUVEMENT SYSTEM
+  speed = 0.02;
+  boolean arrived = false;
+  
+  //if(arrived == false){
+  //   angle = -1;
+  //   arrived = true;
+  //} else if(arrived && mousePressed) {
+  //   //arrived = false; 
+  //   angle += speed;
+  //}
+  
+  //if(mousePressed){
+  //   angle += speed;
+  //}
+  
+  
+  if(cos(angle) > 0.961){
+     arrived = true;
+  }
+  
+  if(arrived){
+     
+  } else {
+    angle += speed;
+  }
+  
+  float subwayLength = ((width * 0.6) * 8) + ((width * 0.2)*2);
+  
+  
+  float trainMove = map(cos(angle), -1.0, 1.0, width, -width*4.3);
+  //println(cos(angle));
+  
 
-  //fill(#00ff00);
-  //rect(0, height * 0.2, width, 250);
-  subway(width * 0.2, height * 0.75, 2);
+  subway(trainMove, height * 0.75, 8);
+  println(arrived, cos(angle), trainMove);
 }
 
+// DRAWS SUBWAY WITH SPECIFIED AMOUNT OF WAGONS AND BOTH CONTROL CABINS
 void subway(float _x, float _y, int _wagonAmount) {  
   float wagonW = width * 0.6;
   pushMatrix();
-  translate(_x, _y);
-  cabin(0, 0);
+  // MAKES THE START POINT THE ABSOLUTE START POINT
+  translate(_x + (width * 0.2), _y);
+
+  // DRAW AMOUNT OF WAGONS
   for (int i=0; i < _wagonAmount; i++) {
     wagon(wagonW*i, 0);
   }
 
-  //wagon(0, 0);
+  // HEAD OF SUBWAY
+  cabin(0, 0);
+
+  // ASS OF SUBWAY
   pushMatrix();
   scale(-1, 1);
   translate(-wagonW*_wagonAmount, 0);
   cabin(0, 0);
   popMatrix();
-
   popMatrix();
 }
 
 void cabin(float _x, float _y) {
   fill(179, 179, 179, 255);
 
+  // CABIN VARS
   float cabinW = width * 0.2;
   float cabinH = 250;
 
@@ -53,6 +100,10 @@ void cabin(float _x, float _y) {
   pushStyle();
   fill(subPanelColor);
   rect(0, -botPH, cabinW, botPH); // Bottom Panel
+  fill(#e6e5b9);
+  rect(0, -cabinH * 0.31, 12, 28, 0, 20, 20, 0); // LIGHT 1
+  fill(#dc9581);
+  rect(0, -cabinH * 0.18, 12, 28, 0, 20, 20, 0); // LIGHT 2
   popStyle();
 
   float rightPW = cabinW * 0.40;
@@ -96,11 +147,12 @@ void cabin(float _x, float _y) {
   fill(subBottomColor);
   rect(0, 0, bottomW, bottomH-20, 0, 0, 0, 61); // MAIN PEICE
   wheel(100, 80);
-  accessPanel(150, 60);
+  accessPanel(220, 60);
   popMatrix();
 }
 
 void wagon(float _x, float _y) {
+  // WAGON VARS
   float wagonW = width * 0.6;
   float wagonH = 130;
   float wagonOffset = 10;
@@ -119,13 +171,19 @@ void wagon(float _x, float _y) {
   float windowH = ((topH - wagonOffsetBig) * 0.60)+wagonOffset;
 
   // ########## BOTTOM SECTION ##########
+  float wheelOffset = 155;
+  float accessPanelOffset = 331;
+
+
+  // WHEELS AND ACCESSORIES UNDERNEATH
   pushMatrix();
   translate(_x, _y);
   fill(subBottomColor);
   rect(0, 0, wagonW, wagonH-20.0);
-  float wheelOffset = 155;
   wheelDuo(wheelOffset, 80);
   wheelDuo(wagonW-wheelOffset, 80);
+  accessPanel(accessPanelOffset, 60);
+  accessPanel(wagonW-accessPanelOffset, 60);
   popMatrix();
 
   // ########## TOP SECTION ##########
@@ -194,21 +252,6 @@ void wagon(float _x, float _y) {
   //stroke(0);
   rect(0, 0, topW, topH);
   popMatrix();
-
-  //// DEBUG LINES
-  //float divAmount = 5;
-  //float div = wagonW / divAmount;
-
-  //pushMatrix();
-  //translate(_x, _y-topH);
-  //stroke(0);
-  //strokeWeight(2);
-  //line(_x + div, 0, _x + div, topH);
-  //line(_x + div*2, 0, _x + div*2, topH);
-  //line(_x + div*3, 0, _x + div*3, topH);
-  //line(_x + div*4, 0, _x + div*4, topH);
-  //line(_x + div*5, 0, _x + div*5, topH);
-  //popMatrix();
 }
 
 void wheelDuo(float _x, float _y) {
@@ -221,19 +264,15 @@ void wheelDuo(float _x, float _y) {
   translate(_x, _y);
   pushStyle();
   rectMode(CENTER);
-  fill(20);
-  //rect(0, -25, 180, 80); // BACK PLATE
   fill(34);
   rect(0, ((-springStrutH/2) - springH/2)+12.0, springStrutW/2, springStrutH, 10); // VERTIVCAL STRUT
-  for (float i=1; i < numSpring - 1; i += 1.0) {                           /***********************/
-    fill(75);                                                              /*  SPRINGS ON STRUT   */
-    rect(0, ((-springStrutH) + (i*springH)) + 12.0, springStrutW, springH, 43);     /***********************/
+  for (float i=1; i < numSpring - 1; i += 1.0) {                                   /***********************/
+    fill(75);                                                                      /*  SPRINGS ON STRUT   */
+    rect(0, ((-springStrutH) + (i*springH)) + 12.0, springStrutW, springH, 43);    /***********************/
   }
-  fill(60);
-  //rect(0,0,150,(springStrutW/2)-6.6); // HORIZONTAL STRUT
   popStyle();
-  wheel(-75, 0);
-  wheel(75, 0);
+  wheel(-75, 0); // WHEEL
+  wheel(75, 0);  // WHEEL
   popMatrix();
 }
 
@@ -253,7 +292,7 @@ void wheel(float _x, float _y) {
   circle(0, 0, wheelSize * 0.5);
   popStyle();
 
-
+  // FOR LOOP WITH BOLTS GOING AROUND THE HUB
   pushStyle();
   fill(18);
   float boltSize = 8.0;
@@ -261,6 +300,7 @@ void wheel(float _x, float _y) {
   float theta = TWO_PI / numBolts;
   float boltRad = (wheelSize * 0.17);
 
+  // SIMPLE FORLOOP TO SCATTER EVENLY BOLTS IN A CIRCULAR MANER
   for (float a=0; a < numBolts; a++) {
     float myTheta = a*theta;
     float x = boltRad * cos(myTheta) + 0;
@@ -277,13 +317,24 @@ void wheel(float _x, float _y) {
   popMatrix();
 }
 
+// Black panel under subway
 void accessPanel(float _x, float _y) {
+  // 
   float accessPanelW = 100;
   float accessPanelH = 50;
+  float accessBoltSize = 5;
+  float accessBoltOffset = 8;
 
   pushMatrix();
   translate(_x, _y);
-  fill(0);
-  rect(0, -accessPanelH/2, accessPanelW, accessPanelH);
+  fill(30);
+  rect(-accessPanelW/2, -accessPanelH/2, accessPanelW, accessPanelH, 8); // MAIN PEICE
+
+  // BOLTS
+  fill(42);
+  circle((-accessPanelW/2) + accessBoltOffset, (-accessPanelH/2) + accessBoltOffset, accessBoltSize); // TOP LEFT
+  circle((accessPanelW/2) - accessBoltOffset, (-accessPanelH/2) + accessBoltOffset, accessBoltSize);  // TOP RIGHT
+  circle((-accessPanelW/2) + accessBoltOffset, (accessPanelH/2) - accessBoltOffset, accessBoltSize); // BOTTOM LEFT
+  circle((accessPanelW/2) - accessBoltOffset, (accessPanelH/2) - accessBoltOffset, accessBoltSize);  // BOTTOM RIGHT
   popMatrix();
 }
