@@ -1,11 +1,17 @@
+color subBottomColor, subPanelColor, windowColor;
 
 void setup() {
   size(1280, 720);
   noStroke();
+  smooth();
 }
 
 void draw() {
-  background(106);
+  background(83);
+  subBottomColor = 50;
+  subPanelColor = #3f71e1;
+  windowColor = color(128, 193, 255, 102);
+
   //fill(#00ff00);
   //rect(0, height * 0.2, width, 250);
   subway(width * 0.2, height * 0.75);
@@ -27,7 +33,7 @@ void subway(float _x, float _y) {
 
 void cabin(float _x, float _y) {
   fill(179, 179, 179, 255);
-  color windowColor = 1923808251;
+
   float cabinW = width * 0.2;
   float cabinH = 250;
 
@@ -37,11 +43,10 @@ void cabin(float _x, float _y) {
   // TOP SECTION
   pushMatrix();
   translate(_x-cabinW, _y);
-  //noStroke();
 
   float botPH = 82;
   pushStyle();
-  fill(255, 255, 255);
+  fill(subPanelColor);
   rect(0, -botPH, cabinW, botPH); // Bottom Panel
   popStyle();
 
@@ -49,11 +54,11 @@ void cabin(float _x, float _y) {
   float rightPH = cabinH - botPH;
   rect(cabinW-rightPW, -cabinH, rightPW, rightPH); // Right panel
 
-  
-  // 
+
+  // WINDOW FRAME
   beginShape();
   curveVertex(cabinH/2, -cabinH);
-  curveVertex(0, -botPH);
+  curveVertex(-0.5, -botPH);
   curveVertex((bottomW-rightPW)+0.5, -botPH-rightPH);
   curveVertex(1075, -cabinH/2);
   vertex((bottomW-rightPW)+0.5, -botPH); // CENTER
@@ -67,7 +72,7 @@ void cabin(float _x, float _y) {
   vertex((bottomW-rightPW)+0.0, -botPH+0.0); // CENTER
   endContour();
   endShape(CLOSE);
-  
+
 
   // WINDOW
   beginShape();
@@ -78,14 +83,14 @@ void cabin(float _x, float _y) {
   curveVertex((cabinH/2)+20.0, -cabinH+92.4);
   vertex((bottomW-rightPW)+0.0, -botPH+0.0); // CENTER
   endShape(OPEN);
-
   popMatrix();
 
-  // BOTTOM SECTION
+  // ##### BOTTOM SECTION ######
   pushMatrix();
   translate(_x-bottomW, _y);
-  fill(#767676);
-  rect(0, 0, bottomW, bottomH);
+  fill(subBottomColor);
+  rect(0, 0, bottomW, bottomH-20, 0, 0, 0, 61); // MAIN PEICE
+  wheel(100,80);
   popMatrix();
 }
 
@@ -104,16 +109,17 @@ void wagon(float _x, float _y) {
   float doorH = topH - wagonOffsetBig;
 
   // WINDOW VARS
-  color windowColor = 1923808251;
   float windowW = topW * 0.25;
   float windowH = ((topH - wagonOffsetBig) * 0.60)+wagonOffset;
 
   // ########## BOTTOM SECTION ##########
-  // *************ADD WHEELS AND SHIT***********
   pushMatrix();
   translate(_x, _y);
-  fill(#767676);
-  rect(0, 0, wagonW, wagonH);
+  fill(subBottomColor);
+  rect(0, 0, wagonW, wagonH-20.0);
+  float wheelOffset = 125;
+  wheelDuo(wheelOffset, 80);
+  wheelDuo(wagonW-wheelOffset, 80);
   popMatrix();
 
   // ########## TOP SECTION ##########
@@ -128,12 +134,10 @@ void wagon(float _x, float _y) {
 
   // FIX PIXEL OFFSET ISSUE IF YOU HAVE TIME
   rect((wagonW * 0.20) + windowW/2, topH-doorH, (wagonW * 0.20) - (doorW/2 + wagonOffset*2 - 1), windowH ); // LEFT CENTER
-
-
   rect((wagonW * 0.50)+(doorW/2), topH-doorH, (wagonW * 0.20) - (doorW/2 + wagonOffset*2 - 1), windowH); // RIGHT CENTER
   rect(wagonW - (wagonW * 0.20 - windowW/2), topH-doorH, (wagonW * 0.20) - windowW/2, windowH ); // RIGHT MOST
-  fill(255, 255, 255);
-  rect(0, windowH+wagonOffsetBig, (wagonW * 0.50) - doorW/2, (doorH * 0.40)-wagonOffset); // BOTTOM LEFT
+  fill(subPanelColor);
+  rect(0, windowH+wagonOffsetBig, (wagonW * 0.50) - doorW/2, (doorH * 0.40)-wagonOffset); // BOTTOM LEFT 
   rect((wagonW * 0.50) + doorW/2, windowH+wagonOffsetBig, (wagonW * 0.50) - doorW/2, (doorH * 0.40)-wagonOffset); // BOTTOM RIGHT
   popMatrix();
 
@@ -166,7 +170,8 @@ void wagon(float _x, float _y) {
   //stroke(0);
   noFill();
   rect(0, 0, doorW, doorH); // CONTOUR
-  fill(#c9f8fa, 140);
+  // WINDOW
+  fill(windowColor);
   rect(wagonOffset, wagonOffset, doorW - wagonOffset*2, doorH * 0.60); // DOOR WINDOW
   popMatrix();
 
@@ -200,13 +205,68 @@ void wagon(float _x, float _y) {
   //popMatrix();
 }
 
+void wheelDuo(float _x, float _y) {
+  float springStrutW = 50;
+  float springStrutH = 60;
+  float springH = 10;
+  float numSpring = springStrutH/springH;
+
+  pushMatrix();
+  translate(_x, _y);
+  pushStyle();
+  rectMode(CENTER);
+  fill(20);
+  //rect(0, -25, 180, 80); // BACK PLATE
+  fill(34);
+  rect(0, (-springStrutH/2) - springH/2, springStrutW/2, springStrutH, 9); // VERTIVCAL STRUT
+  for (float i=1; i < numSpring - 1; i += 1.0) {                           /***********************/
+    fill(75);                                                              /*  SPRINGS ON STRUT   */
+    rect(0, (-springStrutH) + (i*springH), springStrutW, springH, 43);     /***********************/
+  }
+  fill(60);
+  //rect(0,0,150,(springStrutW/2)-6.6); // HORIZONTAL STRUT
+  popStyle();
+  wheel(-75, 0);
+  wheel(75, 0);
+  popMatrix();
+}
+
+void wheel(float _x, float _y) {
+  float wheelSize = 85;
+
+  pushMatrix();
+  translate(_x, _y);
+  rotate(radians(0));
+  pushStyle();
+  // TIRE
+  fill(25);
+  ellipseMode(CENTER);
+  circle(0, 0, wheelSize); 
+  // HUB
+  fill(80);
+  circle(0, 0, wheelSize * 0.5);
+  popStyle();
 
 
+  pushStyle();
+  fill(18);
+  float boltSize = 8.0;
+  int numBolts = 6;
+  float theta = TWO_PI / numBolts;
+  float boltRad = (wheelSize * 0.17);
 
-
-
-
-
-
-
-float ign;
+  for (float a=0; a < numBolts; a++) {
+    float myTheta = a*theta;
+    float x = boltRad * cos(myTheta) + 0;
+    float y = boltRad * sin(myTheta) + 0;
+    pushMatrix();
+    translate(x, y);
+    rotate(radians(map(myTheta, 0, TWO_PI, 0, 360)));
+    ellipse(0, 0, boltSize*0.5, boltSize);
+    popMatrix();
+  }
+  popStyle();
+  fill(38);
+  circle(0, 0, wheelSize * 0.20);
+  popMatrix();
+}
