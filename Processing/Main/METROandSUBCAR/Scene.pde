@@ -1,3 +1,21 @@
+void entry(float _x, float _y, float _w, float _h) {
+  color alum = #848789; // ALUMINIUM COLOR
+  pushMatrix();
+  translate(_x-_w/2, _y);
+  fill(73, 64, 48, 117);
+  rect(0, 0, _w, _h); // DARKEN RECTANGLE
+  fill(#7b7a7a); 
+
+
+  // BACKGROUND ESCALATOR
+  beginShape();
+  bezier(157, _h, 150, 150, 182, 192, 255, 160);
+  vertex(_w + 0.0, 40);
+  vertex(_w + 0.0, _h + 0.0);
+  endShape(CLOSE);
+  popMatrix();
+}
+
 void ceelingGradient(int _finishHeight) {
   // MAKES UPPER CEELING GRADIENT
   pushStyle();
@@ -11,21 +29,22 @@ void ceelingGradient(int _finishHeight) {
 }
 
 void concrete() {
+  // UNDER SUBWAY CONCRETE
   float slabHeight = 57;
-  
+
   pushMatrix();
   translate(0, height-slabHeight);
   pushStyle();
   noStroke();
   fill(176, 170, 170);
-  rect(0,0,width,slabHeight);
-  
-  for(int i=0; i < 600; i++){
-        strokeWeight(2);
-        stroke((int) random(255));
-        point(random(0,width),random(0, slabHeight));
+  rect(0, 0, width, slabHeight);
+
+  for (int i=0; i < 600; i++) {
+    strokeWeight(2);
+    stroke((int) random(255));
+    point(random(0, width), random(0, slabHeight));
   }
-  
+
   popStyle();
   popMatrix();
 }
@@ -85,6 +104,33 @@ void wall(float _x, float _y, float _w, float _h) {
   popMatrix();
 }
 
+void trainTimeDisplay(float _x, float _y, float _w, float _h) {
+  int nextTrain;
+
+  if (seq.getTime() < 30 ) {
+    nextTrain = (int) (30-seq.getTime());
+  } else { 
+    nextTrain = (int) ((seq.getDuration()+30)-seq.getTime());
+  }
+
+  pushMatrix();
+  translate(_x, _y);
+  fill(0);
+  strokeWeight(3);
+  rect(0, 0, _w, _h); // MAIN TV BG COLOR
+  noStroke();
+  fill(15, 29, 166);
+  rect(1, 1, _w-1, _h*0.3);
+  textAlign(CENTER, CENTER);
+  textSize(14);
+  fill(255);
+  text("NEXT TRAIN IN:", _w * 0.50, _h * 0.14);
+  textSize(20);
+  text(nextTrain, _w * 0.40, _h * 0.60); // COUNT DOWN TEXT
+  text("sec.", _w * 0.71, _h * 0.60);
+  popMatrix();
+}
+
 void drawTile(float _x, float _y, float _w, float _h, int _color) {
   pushMatrix();
   translate(_x, _y);
@@ -92,16 +138,6 @@ void drawTile(float _x, float _y, float _w, float _h, int _color) {
   strokeWeight(1.5);
   fill((color)brickColors.get(_color));
   rect(0, 0, _w, _h);
-  popMatrix();
-}
-
-void entry(float _x, float _y, float _w, float _h) {
-  pushMatrix();
-  translate(_x + 0.00, _y - _h/2);
-  rectMode(CENTER);
-  noStroke();
-  fill(106);
-  rect(0, 0, _w, _h, 0);
   popMatrix();
 }
 
@@ -125,6 +161,7 @@ void bench(float _x, float _y, float _w, float _h) {
   popMatrix();
 }
 
+// DRAWS METRO MAP ON TH WALL
 void metroMap(float _x, float _y, float _s) {
   pushMatrix();
   translate(_x, _y);

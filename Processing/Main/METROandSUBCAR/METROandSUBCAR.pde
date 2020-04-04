@@ -15,6 +15,10 @@ float subPosX, subLength;
 float floorWallSplit = 0.75;
 ArrayList brickColors;
 
+// NPC PARAMETERS
+int numNPCS = 10; // AMOUNT OF NPCS IN SCENE
+ArrayList<Player> NPCS = new ArrayList<Player>(); // INITIALISE NPC ARRAY
+
 void setup() {
   size(1280, 720, P2D);
   brickColors = randomColor(10000);
@@ -29,13 +33,14 @@ void setup() {
   seq = new AniSequence(this);
 
   trainMove();
-  
+
+  // CONCRETE SLAB ON BOTTOM
   concrete();
-  //for (int i=0; i < height; i++) {
-  //  strokeWeight(5);
-  //  stroke(0);
-  //  point(random(0, width), random(height-32, height));
-  //}
+
+  // NPCS
+  for (int i=0; i < numNPCS; i++) {
+    NPCS.add(new Player(random(50, width-50), height * floorWallSplit, 65, 130, ""));
+  }
 }
 
 void draw() {
@@ -46,34 +51,32 @@ void draw() {
   ceelingGradient(350);
   wall(0, 300, width, (height * floorWallSplit) - 300);
   banner(0, 300, width);
-  entry(width/2, (height * floorWallSplit), 500.0, (height * floorWallSplit)-300); //554.9
+  entry((width/2), 300, 504.0, (height * floorWallSplit)-300); //554.9
   pushMatrix();
   translate(77/2, height * floorWallSplit);
   bench(0, 0, 75, 45);
   bench(75, 0, 75, 45);
   bench(75*2, 0, 75, 45);
   popMatrix();
-
   subFloor(0, height * floorWallSplit, width, (height-57) - height * floorWallSplit);
   metroMap(260, 337, 0.25);
-  //concrete();
+  trainTimeDisplay(1032, 377, 121, 72);
   popStyle();
 
+  // DISPLAY ALL NPCS
+  showNPCS();
+
   // SUBWAY CAR [X POSITION, Y POSITION, NUMBER OF WAGONS]
+  subway(subPosX, height * 0.75, 8);
+
   subBottomColor = 50;
   subPanelColor = #3f71e1;
   windowColor = color(128, 193, 255, 102);
-
-  subway(subPosX, height * 0.75, 8);
 
   // SUBWAY ANIMATION REPEATER
   if (seq.isEnded()) {
     seq.start();
   }
-
-  int timeUntilNextTrain = (int) ((seq.getDuration())-seq.getTime());
-
-  //println(seq.getDuration(), (int) seq.getTime(), timeUntilNextTrain, seq.getStepNumber());
 }
 
 void trainMove() {
@@ -82,4 +85,13 @@ void trainMove() {
   seq.add(Ani.to(this, 10, 5, "subPosX", -subLength*2, Ani.QUINT_IN));
   seq.endSequence();
   seq.start();
+}
+
+void showNPCS() {
+  for (int i=0; i < NPCS.size(); i++) {
+    pushStyle();
+    NPCS.get(i).display();
+    NPCS.get(i).animate();
+    popStyle();
+  }
 }

@@ -45,11 +45,9 @@ void cabin(float _x, float _y) {
   fill(#dc9581);
   rect(0, -cabinH * 0.18, 12, 28, 0, 20, 20, 0); // LIGHT 2
   popStyle();
-
   float rightPW = cabinW * 0.40;
   float rightPH = cabinH - botPH;
   rect(cabinW-rightPW, -cabinH, rightPW, rightPH); // Right panel
-
 
   // WINDOW FRAME
   beginShape();
@@ -68,7 +66,6 @@ void cabin(float _x, float _y) {
   vertex((bottomW-rightPW)+0.0, -botPH+0.0); // CENTER
   endContour();
   endShape(CLOSE);
-
 
   // WINDOW
   beginShape();
@@ -149,7 +146,6 @@ void wagon(float _x, float _y) {
   // LEFT
   pushMatrix();
   translate((_x + (wagonW * 0.20 - (windowW * 0.50))), _y-doorH);
-  //line(windowW/2, 0, windowW/2, windowH); // DEGUB LINE
   fill(windowColor);
   rect(0, 0, windowW, windowH);
   popMatrix();
@@ -157,7 +153,6 @@ void wagon(float _x, float _y) {
   // RIGHT
   pushMatrix();
   translate((_x + (wagonW * 0.80 - (windowW * 0.50))), _y-doorH);
-  //line(windowW/2, 0, windowW/2, windowH); // DEGUB LINE
   fill(windowColor);
   rect(0, 0, windowW, windowH);
   popMatrix();
@@ -171,7 +166,6 @@ void wagon(float _x, float _y) {
   rect(0, (doorH * 0.60)+wagonOffset, doorW, (doorH * 0.40)-wagonOffset); // BOTTOM
   rect(0, wagonOffset, wagonOffset, doorH * 0.60); // LEFT
   rect(doorW-wagonOffset, wagonOffset, wagonOffset, doorH * 0.60); // LEFT
-  //stroke(0);
   noFill();
   rect(0, 0, doorW, doorH); // CONTOUR
   // WINDOW
@@ -189,7 +183,6 @@ void wagon(float _x, float _y) {
   pushMatrix();
   translate(_x, _y-topH);
   fill(0, 0, 0, 0);
-  //stroke(0);
   rect(0, 0, topW, topH);
   popMatrix();
 }
